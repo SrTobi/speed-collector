@@ -56,39 +56,40 @@ function getor<T>(v: T, d: T): T {
 }
 
 async function main() {
-    settings = await loadSettings();
-
-    need(settings.builddir, "settings.builddir");
-    need(settings.clonedir, "settings.clonedir");
-    need(settings.codespeed, "settings.codespeed");
-    need(settings.codespeed.hostname, "codespeed.hostname");
-    need(settings.codespeed.port, "codespeed.port");
-    need(settings.codespeed.restpath, "codespeed.restpath");
-
-    // load steps
-    need(settings.steps, "settings.steps");
-    let steps = settings.steps.map((stepSetting) => {
-        let exec = need(stepSetting.exec, "step.exec");
-        return new Step(
-            settings.codespeed,
-            need(stepSetting.name, "step.name"),
-            (proj) => [exec],
-            stepSetting.benchmark,
-            need(stepSetting.required, "step.required"),
-            getor(stepSetting.timeout, 600) * 1000,
-            stepSetting.reffile);
-    });
-
-    need(settings.projects, "settings.projects");
-    let projects = settings.projects.map((projSettings) => {
-        return new Project(
-            settings,
-            need(projSettings.name, "project.name"),
-            need(projSettings.giturl, "project.giturl")
-        );
-    })
 
     try {
+        settings = await loadSettings();
+
+        need(settings.builddir, "settings.builddir");
+        need(settings.clonedir, "settings.clonedir");
+        need(settings.codespeed, "settings.codespeed");
+        need(settings.codespeed.hostname, "codespeed.hostname");
+        need(settings.codespeed.port, "codespeed.port");
+        need(settings.codespeed.restpath, "codespeed.restpath");
+
+        // load steps
+        need(settings.steps, "settings.steps");
+        let steps = settings.steps.map((stepSetting) => {
+            let exec = need(stepSetting.exec, "step.exec");
+            return new Step(
+                settings.codespeed,
+                need(stepSetting.name, "step.name"),
+                (proj) => [exec],
+                stepSetting.benchmark,
+                need(stepSetting.required, "step.required"),
+                getor(stepSetting.timeout, 600) * 1000,
+                stepSetting.reffile);
+        });
+
+        need(settings.projects, "settings.projects");
+        let projects = settings.projects.map((projSettings) => {
+            return new Project(
+                settings,
+                need(projSettings.name, "project.name"),
+                need(projSettings.giturl, "project.giturl")
+            );
+        });
+        
         posix.setrlimit('data', {soft: 1024 * 1024 * 1024});
         posix.setrlimit('fsize', {soft: 1024 * 1024 * 1024});
         //console.log("Start!")
@@ -103,7 +104,7 @@ async function main() {
             await processProject(projects[i], steps);
         }
     } catch(e) {
-        console.log(e);
+        console.log(e.message);
     }
     process.exit();
 }
