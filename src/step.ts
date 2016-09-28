@@ -72,15 +72,13 @@ export class Step {
             results.push(time);
         }
 
-        if(!refOk || ret > 0) {
-            if(!refOk) {
-                console.log("Error: Output is not equal to reference!");
+        let failed = !refOk || ret != 0;
+
+        if(this.benchmarkSettings) {
+            if(failed) {
+                results = [0];
+                console.log("Failed! Sending -1 as result!");
             }
-            if(this.required) {
-                console.log(`${this.name} failed!`);
-                return false;
-            }
-        } else if(this.benchmarkSettings) {
             if(results.length > 1) {
                 results.shift();
             }
@@ -104,6 +102,16 @@ export class Step {
             };
             
             await this.postSpeedData(benchmarkResult, info);
+        }
+
+        if(failed) {
+            if(!refOk) {
+                console.log("Error: Output is not equal to reference!");
+            }
+            if(this.required) {
+                console.log(`${this.name} failed!`);
+                return false;
+            }
         }
 
         return true;
