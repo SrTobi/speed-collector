@@ -31,12 +31,15 @@ Dependencies:
 1. Clone speed-collector
 
     git clone ...
+    cd speed-collector
 
-3. Configure?
+3. Configure
+
+    mv settings.example.json settings.json
+    vim settings.json
 
 2. Build speed-collector
 
-    cd speed-collector
     npm build
 
 3. Start (via cron job)
