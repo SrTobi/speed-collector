@@ -38,7 +38,7 @@ Dependencies:
 1. Clone speed-collector
 
     ```
-    git clone ...
+    git clone https://github.com/SrTobi/speed-collector
     cd speed-collector
     ```
 
