@@ -73,3 +73,91 @@ npm start
 ```
 npm run deamon
 ```
+
+3 Configure speed-collector
+---------------------------
+
+To configure speed-collector edit the `settings.json`:
+
+~~~~~~~~~~~~~~~~~~~~~~~~
+{
+    // Settings for the data upload (required)
+    "codespeed": {
+        "hostname": "127.0.0.1",
+        "port": 8000, 
+        "restpath": "/result/add/"
+    },
+
+    // The directory the projects are cloned into.
+    // Each project gets its own subdirectory
+    "clonedir": "projects/clones",  // (required)
+
+    // The directory where the projects are built and run.
+    // Each project gets its own subdirectory
+    // This directory will be cleaned after every a project has been processed!
+    "builddir": "projects/bld",     // (required)
+
+    // When used in deamon mode this will determine
+    // how long the process should sleep in seconds between two updates.
+    "sleep": 30,                    // (defaults to 600)
+
+    // Each project will run through multiple steps
+    // In each step a script is executed (exec)
+    // Those may modify the directory
+    // For each step a benchmark will be created (or not) and sent to a codespeed server
+    // After the last step, the project directory will be removed
+    "steps": [
+        {
+            // The name of the step
+            "name": "Build",        // (required)
+
+            // The command that should be executed inside the project
+            "exec": "build.sh",     // (required)
+
+            // Information about the benchmark
+            // If this is undefined or null, no benchmark will be sent
+            "benchmark": {          // (not required)
+                "benchmark": "build",
+                "executable": "compiler",
+                "environment": "test-machine",
+
+                // Determines how often the script should be run to messure the benchmark
+                "repeat": 1
+            },
+
+            // Determines if this step is required by the following steps
+            "required": true,       // (required)
+
+            // Max runtime for this step in seconds.
+            // After the timeout the step will fail.
+            "timeout": 600          // (defaults to 600)
+        },
+        {
+            "name": "Run",
+            "exec": "run.sh",
+            "benchmark": {
+                "benchmark": "run",
+                "executable": "program",
+                "environment": "test-machine",
+                "repeat": 11
+            },
+            "required": false,
+            "timeout": 1,
+            "reffile": "test.ref"
+        }
+    ],
+
+    // A list of projects that should be monitored
+    // The projects are automatically fetched from a git repository.
+    "projects": [
+        {
+            "name": "FirstTest",
+            "giturl": "https://github.com/SrTobi/FirstTest"
+        },
+        {
+            "name": "SecondTest",
+            "giturl": "https://github.com/SrTobi/SecondTest"
+        }
+    ]
+}
+~~~~~~~~~~~~~~~~~~~~~~~~
