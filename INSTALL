@@ -26,22 +26,32 @@ Dependencies:
 --------------------------
 
 Dependencies:
-- node, npm
+- node v6, npm
+- firejail
 
 1. Clone speed-collector
 
     git clone ...
     cd speed-collector
 
-3. Configure
+2. Configure
 
     mv settings.example.json settings.json
     vim settings.json
 
-2. Build speed-collector
+3. Install environment
 
-    npm build
+    npm install     # install package dependencies
+    npm run tsd     # download typescript typings
 
-3. Start (via cron job)
+3. Build speed-collector
+
+    npm run build
+
+4a. Start once
 
     npm start
+
+4b. Start as deamon
+
+    npm run deamon
