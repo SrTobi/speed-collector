@@ -1,7 +1,7 @@
 import * as Git from 'nodegit';
 import * as path from 'path';
 import * as utils from './utils';
-import * as settings from './settings';
+import {Settings} from './settings';
 
 export interface ProjectStateInfo {
     commitid: string;
@@ -13,9 +13,9 @@ export class Project {
     public clone_path: string;
     public build_path: string;
 
-    constructor(public name: string, public url: string) {
-        this.clone_path = path.join(settings.CODESPEED_CLONE_DIR, name);
-        this.build_path = path.join(settings.CODESPEED_BUILD_DIR, name);
+    constructor(private settings: Settings, public name: string, public url: string) {
+        this.clone_path = path.join(settings.clonedir, name);
+        this.build_path = path.join(settings.builddir, name);
     }
 
     public async update(): Promise<ProjectStateInfo> {

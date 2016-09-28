@@ -1,0 +1,49 @@
+{
+    "codespeed": {
+        "hostname": "127.0.0.1",
+        "port": 8000, 
+        "restpath": "/result/add/"
+    },
+
+    "clonedir": "projects/clones",
+    "builddir": "projects/bld",
+
+    "steps": [
+        {
+            "name": "Build",
+            "exec": "build.sh",
+            "benchmark": {
+                "benchmark": "build",
+                "executable": "compiler",
+                "environment": "test-machine",
+                "repeat": 1
+            },
+            "required": true,
+            "timeout": 600
+        },
+        {
+            "name": "Run",
+            "exec": "run.sh",
+            "benchmark": {
+                "benchmark": "run",
+                "executable": "program",
+                "environment": "test-machine",
+                "repeat": 11
+            },
+            "required": false,
+            "timeout": 1,
+            "reffile": "test.ref"
+        }
+    ],
+
+    "projects": [
+        {
+            "name": "FirstTest",
+            "giturl": "https://github.com/SrTobi/FirstTest"
+        },
+        {
+            "name": "SecondTest",
+            "giturl": "https://github.com/SrTobi/SecondTest"
+        }
+    ]
+}

@@ -47,8 +47,8 @@ export async function copy_without_git(from: string, to: string) {
     });
 }
 
-export async function loadFile(file: string): Promise<String> {
-    return new Promise<String>(
+export async function loadFile(file: string): Promise<string> {
+    return new Promise<string>(
         (resolve, reject) => {
             fs.readFile(file, 'utf8',
                 (err, data) => {

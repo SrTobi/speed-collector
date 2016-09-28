@@ -1,6 +1,6 @@
 import {Project, ProjectStateInfo} from './project';
 import * as utils from './utils'
-import * as settings from './settings';
+import {CodespeedSettings, BenchmarkSettings} from './settings';
 import * as post from './post';
 import * as path from 'path';
 
@@ -16,14 +16,12 @@ export interface BenchmarkResult {
 
 export class Step {
     constructor(
+        private peerSettings: CodespeedSettings,
         private name: string,
         private command: ((proj: Project) => string[]),
-        private benchmark: string,
-        private executable: string,
-        private environment: string,
+        private benchmarkSettings: BenchmarkSettings,
         public required: boolean,
         private timeout: number,
-        private simpleBenchmark: boolean = false,
         private refFile: string = null) {
 
     }
@@ -31,10 +29,10 @@ export class Step {
     private async postSpeedData(results: BenchmarkResult, pinfo: ProjectStateInfo) {
         let postdata: post.CodespeedPostData = Object.assign(results, pinfo);
 
-        console.log(`Send data to ${settings.CODESPEED_HOSTNAME}:${settings.CODESPEED_PORT}${settings.CODESPEED_RESTPATH}`);
+        console.log(`Send data to ${this.peerSettings.hostname}:${this.peerSettings.port}${this.peerSettings.restpath}`);
         console.log(JSON.stringify(postdata, null, 2));
         try {
-            await post.senddataTo(settings.CODESPEED_HOSTNAME, settings.CODESPEED_PORT, settings.CODESPEED_RESTPATH, postdata);
+            await post.senddataTo(this.peerSettings.hostname, this.peerSettings.port, this.peerSettings.restpath, postdata);
             console.log("Sending done");
         } catch(e) {
             console.log("Sending failed!")
@@ -43,7 +41,7 @@ export class Step {
 
     public async process(proj: Project, info: ProjectStateInfo): Promise<boolean> {
 
-        let times = this.simpleBenchmark? 1 : 11;
+        let times = this.benchmarkSettings? this.benchmarkSettings.repeat : 1;
         let results: number[] = [];
 
         console.log(`Start step ${this.name}`);
@@ -82,7 +80,7 @@ export class Step {
                 console.log(`${this.name} failed!`);
                 return false;
             }
-        } else {
+        } else if(this.benchmarkSettings) {
             if(results.length > 1) {
                 results.shift();
             }
@@ -96,9 +94,9 @@ export class Step {
             let stddev = Math.sqrt(variance);
 
             let benchmarkResult: BenchmarkResult = {
-                executable: this.executable,
-                benchmark: this.benchmark,
-                environment: this.environment,
+                executable: this.benchmarkSettings.executable,
+                benchmark: this.benchmarkSettings.benchmark,
+                environment: this.benchmarkSettings.environment,
                 result_value: mean,
                 std_dev: stddev,
                 min: min,
