@@ -1,0 +1,20 @@
+{
+  "name": "codespeed-collector",
+  "description": "Codespeed collector",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node build/main.js",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "ncp": "^2.0.0",
+    "nodegit": "^0.14.1",
+    "posix": "^4.0.2",
+    "rimraf": "^2.5.4"
+  },
+  "devDependencies": {
+    "tsd": "^0.6.5",
+    "typescript": "^1.8.10"
+  }
+}

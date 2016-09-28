@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "emitDecoratorMetadata": true,
+        "target": "es6",
+        "module": "commonjs",
+        "outDir": "build",
+        "experimentalDecorators": true,
+        "sourceMap": true,
+        "noImplicitAny": true
+    },
+    
+    "filesGlob": [
+        "./**/*.ts"
+    ]
+}
