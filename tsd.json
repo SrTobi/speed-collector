@@ -6,13 +6,13 @@
   "bundle": "typings/tsd.d.ts",
   "installed": {
     "node/node.d.ts": {
-      "commit": "084e55916674ff7128722bf72150aa55acea08d9"
+      "commit": "42f940eabe1a5ff3c3890f92af94816f798d3be8"
     },
     "ncp/ncp.d.ts": {
-      "commit": "084e55916674ff7128722bf72150aa55acea08d9"
+      "commit": "42f940eabe1a5ff3c3890f92af94816f798d3be8"
     },
     "rimraf/rimraf.d.ts": {
-      "commit": "084e55916674ff7128722bf72150aa55acea08d9"
+      "commit": "42f940eabe1a5ff3c3890f92af94816f798d3be8"
     }
   }
 }
