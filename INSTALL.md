@@ -42,7 +42,7 @@ Dependencies:
     cd speed-collector
     ```
 
-2. Configure
+2. Configure (See also Section 3)
 
     ```
     mv settings.example.json settings.json
@@ -56,23 +56,23 @@ Dependencies:
     npm run tsd     # download typescript typings
     ```
 
-3. Build speed-collector
+4. Build speed-collector
 
     ```
     npm run build
     ```
 
-4a. Start once
+5. (a) Start once
 
-```
-npm start
-```
+    ```
+    npm start
+    ```
 
-4b. Start as deamon
+5. (b) Start as deamon
 
-```
-npm run deamon
-```
+    ```
+    npm run deamon
+    ```
 
 3 Configure speed-collector
 ---------------------------
