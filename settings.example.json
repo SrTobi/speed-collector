@@ -8,6 +8,8 @@
     "clonedir": "projects/clones",
     "builddir": "projects/bld",
 
+    "sleep": 600,
+
     "steps": [
         {
             "name": "Build",

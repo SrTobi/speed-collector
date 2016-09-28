@@ -50,6 +50,7 @@ export interface Settings {
     projects: ProjectSettings[];
     clonedir: string;
     builddir: string;
+    sleep: number;
 }
 
 export async function loadSettings(settingsFile: string = "settings.json"): Promise<Settings> {

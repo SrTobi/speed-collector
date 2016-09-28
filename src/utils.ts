@@ -60,3 +60,11 @@ export async function loadFile(file: string): Promise<string> {
                 });
         });
 }
+
+
+export async function sleep(ms: number) {
+    return new Promise<void>(
+        (resolve, reject) => {
+            setTimeout(() => resolve(), ms);
+        });
+}

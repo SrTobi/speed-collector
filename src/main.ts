@@ -60,6 +60,7 @@ async function main() {
     try {
         settings = await loadSettings();
 
+        let sleetime = getor(settings.sleep, 300) * 1000;
         need(settings.builddir, "settings.builddir");
         need(settings.clonedir, "settings.clonedir");
         need(settings.codespeed, "settings.codespeed");
@@ -100,9 +101,22 @@ async function main() {
         //let p2 = new Project("SecondTest", "https://github.com/SrTobi/SecondTest");
         //await processProject(p1);
         //await processProject(p2);
-        for(var i = 0; i < projects.length; ++i) {
-            await processProject(projects[i], steps);
-        }
+        let isDeamon = process.argv.indexOf("--deamon") >= 0;
+
+        if(isDeamon)
+            console.log("Start speed-collector as deemon!")
+
+        do {
+            for(var i = 0; i < projects.length; ++i) {
+                await processProject(projects[i], steps);
+            }
+
+            if(isDeamon) {
+                console.log(`Wait ${sleetime}ms...`);
+                await utils.sleep(sleetime);
+            }
+
+        } while(isDeamon);
     } catch(e) {
         console.log(e.message);
     }

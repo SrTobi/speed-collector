@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node build/main.js",
     "build": "tsc -p .",
+    "deamon": "node build/main.js --deamon",
     "tsd": "tsd install"
   },
   "dependencies": {
