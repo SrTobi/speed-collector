@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "start": "node build/main.js",
-    "build": "tsc"
+    "build": "tsc -p .",
+    "tsd": "tsd install"
   },
   "dependencies": {
     "ncp": "^2.0.0",
