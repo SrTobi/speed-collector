@@ -23,6 +23,7 @@ export interface BenchmarkSettings {
 export interface StepSettings {
     name: string;
     exec: string;
+    args: string[];
     benchmark: BenchmarkSettings;
     required: boolean;
     timeout: number;

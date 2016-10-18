@@ -72,10 +72,11 @@ async function main() {
         need(settings.steps, "settings.steps");
         let steps = settings.steps.map((stepSetting) => {
             let exec = need(stepSetting.exec, "step.exec");
+            let args = getor(stepSetting.args, []);
             return new Step(
                 settings.codespeed,
                 need(stepSetting.name, "step.name"),
-                (proj) => [exec],
+                (proj) => [exec].concat(...args),
                 stepSetting.benchmark,
                 need(stepSetting.required, "step.required"),
                 getor(stepSetting.timeout, 600) * 1000,

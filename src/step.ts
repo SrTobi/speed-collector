@@ -3,6 +3,7 @@ import * as utils from './utils'
 import {CodespeedSettings, BenchmarkSettings} from './settings';
 import * as post from './post';
 import * as path from 'path';
+import * as fs from 'fs';
 
 export interface BenchmarkResult {
     executable: string;
@@ -45,8 +46,16 @@ export class Step {
         let results: number[] = [];
 
         console.log(`Start step ${this.name}`);
-        let firejailArgs = ["--quiet", "--noprofile", "--private=.", "sh"]
-        let command = firejailArgs.concat(this.command(proj));
+        let firejailArgs = ["--quiet", "--noprofile", "--private=."];
+        let cmdWithArgs = this.command(proj);
+        let cmd = cmdWithArgs[0];
+        let script = path.join(proj.build_path, cmd);
+        try {
+            fs.chmodSync(script, '755');
+        } catch(e) {
+            console.log(`Failed to chmod +x '${script}`);
+        }
+        let command = firejailArgs.concat(cmdWithArgs);
         console.log(`> ${command.join(" ")}`);
 
         var ret = 0;
@@ -77,7 +86,7 @@ export class Step {
         if(this.benchmarkSettings) {
             if(failed) {
                 results = [0];
-                console.log("Failed! Sending -1 as result!");
+                console.log("Failed! Sending 0 as result!");
             }
             if(results.length > 1) {
                 results.shift();

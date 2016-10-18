@@ -13,7 +13,8 @@
     "steps": [
         {
             "name": "Build",
-            "exec": "build.sh",
+            "exec": "./build.sh",
+            "args": ["somearg"],
             "benchmark": {
                 "benchmark": "build",
                 "executable": "compiler",
@@ -25,7 +26,8 @@
         },
         {
             "name": "Run",
-            "exec": "run.sh",
+            "exec": "./run.sh",
+            "args": ["somearg"],
             "benchmark": {
                 "benchmark": "run",
                 "executable": "program",
