@@ -102,7 +102,7 @@ To configure speed-collector edit the `settings.json`:
     "sleep": 30,                    // (defaults to 600)
 
     // Each project will run through multiple steps
-    // In each step a script is executed (exec)
+    // In each step a script is executed (exec) with a set of arguments (args)
     // Those may modify the directory
     // For each step a benchmark will be created (or not) and sent to a codespeed server
     // After the last step, the project directory will be removed
@@ -111,8 +111,11 @@ To configure speed-collector edit the `settings.json`:
             // The name of the step
             "name": "Build",        // (required)
 
-            // The command that should be executed inside the project
+            // The script that should be executed inside the project (it is made executable by speed-collector)
             "exec": "build.sh",     // (required)
+
+            // a list of arguments, that are given to the script
+            "args": ["-O3"]
 
             // Information about the benchmark
             // If this is undefined or null, no benchmark will be sent
